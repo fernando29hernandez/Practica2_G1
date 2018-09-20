@@ -32,7 +32,10 @@ def update_seccion(request, seccionid):
     return render(request, 'crear_seccion.html', {'form': form})
  
 def delete_seccion(request, seccionid):
-    instance = get_object_or_404(Seccion, id=seccionid)
-    instance.delete()
-    messages.add_message(request, messages.SUCCESS, "The post with id %s has been deleted!" % seccionid)
-    return HttpResponseRedirect("/seccion/list/")
+    instance =Seccion.objects.get(id=seccionid)
+    if request.method == 'POST':
+        instance.delete()
+        messages.add_message(request, messages.SUCCESS, "The post has been Deleted!")
+        return HttpResponseRedirect("/seccion/list/")
+    return render(request, 'eliminar_seccion.html',{'seccion':instance})
+ 
