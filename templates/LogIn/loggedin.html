@@ -1,55 +1,31 @@
-{% extends "secciones.html" %}
-{% block content %}
-{% if request.user.is_authenticated %}
+{% extends "base.html" %}
 
-<div class="content">
-  <div class="container"> 
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h2>Lista de notificaciones</h2>
-        </div>
-        <div class="panel-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                  <th>No.</th>
-                  <th>Etapa</th>
-                  <th>Gestión</th>
-                  <th>Fecha</th>
-                  <th>Condicion</th>
-                  <th>&nbsp;</th>
-              </thead>
-              <tbody>
-                {% if notificaciones %}
-                  {% for elemento in notificaciones %}
-                    <tr>
-                      <td>{{ forloop.counter }}</td>
-                      <td>{{elemento.id_etapa}}) {{ elemento.nombre_etapa }}</td>
-                      <td>{{elemento.id_gestion}}) {{ elemento.nombre_gestion }}</td>
-                      <td>{{ elemento.fecha }}</td>
+{% block title %}
+  Usuario
+{% endblock %}
 
-                      <td>
-						{% for condicion in elemento.condiciones %}
-							<a class = "btn btn-primary" href="{% url 'aplicacion1:contestarNotificacion' condicion.id_condicion elemento.id_etapa elemento.id_gestion%}">{{ condicion.condicion}}</a>
-                    	{% endfor %}	                      	
-                      </td>
+{% block header %}
+    {% if request.user.is_authenticated %}
+        
+            <!-- Just an image -->
 
-                    </tr>
-                  {% endfor %}
-                {% else %}
-                  <h1>No hay notificaciones</h1>
-                {% endif %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
+            <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> HOME </a>
+                    <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
+                    <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
+                </div>
+            </nav>
+    
+    {% else %}
+        
+            <!-- Just an image -->
 
-{%endif%}
+            <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> HOME </a>
+                </div>
+            </nav>
+        
+    {%endif%}
 {% endblock %}

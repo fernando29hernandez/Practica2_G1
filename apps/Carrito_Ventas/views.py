@@ -110,10 +110,11 @@ def encriptarpassword(password):
 
 
 
-
+@login_required
 def list_secciones(request):
     return render_to_response("listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
- 
+
+@login_required
 def add_seccion(request):
     form = SeccionForm(request.POST or None)
     if request.method == 'POST':
@@ -123,7 +124,8 @@ def add_seccion(request):
             return HttpResponseRedirect("/seccion/list/")
  
     return render(request, 'crear_seccion.html', {'form': form})
- 
+
+@login_required
 def update_seccion(request, seccionid):
     instance = get_object_or_404(Seccion, id=seccionid)
     form = SeccionForm(request.POST or None, instance=instance)
@@ -135,6 +137,7 @@ def update_seccion(request, seccionid):
  
     return render(request, 'crear_seccion.html', {'form': form})
  
+@login_required
 def delete_seccion(request, seccionid):
     instance = get_object_or_404(Seccion, id=seccionid)
     instance.delete()

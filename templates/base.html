@@ -1,78 +1,28 @@
-{%load staticfiles%}
-
+<!DOCTYPE html>
+<html>
 <head>
-  <link rel = "stylesheet" href="{% static 'css/app.css' %}">
- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-<!-- required modeler styles -->
-   
-<style type="text/css">
-#tabla1{
-botton: 748px;
-	
-}	
- 
-            html, body {
-                background-color: lightblue;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-
-</style>
-
+    <meta charset="utf-8">
+    <!-- bloque de contenido para el título-->
+    <title>Crud con Python y Django | {% block title %}Página principal{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
-<body   >
-
-   
-  
-   
-    {% block content %}
-    {% endblock %}	 
-
-  </body>
-  <script src ="{% static 'js/app.js' %}"></script>
-  
+<body>
+    <div id="header">
+        <!-- bloque de contenido para el menú-->
+        {% block header %}
+        
+        {% endblock %}
+    </div>
+    <div class="container">
+        <!-- bloque de contenido para el contenido de la página-->
+        {% block content %}
+ 
+        {% endblock %}
+    </div>
+ 
+    <footer class="footer">
+        <!-- bloque de contenido para el footer-->
+        {% block footer %}{% endblock %}
+    </footer>
+</body>
+</html>
