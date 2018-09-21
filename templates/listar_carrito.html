@@ -20,12 +20,14 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <h2>Carrito</h2>
-            Usuario: {{ carrito.usuario_fk.username }}, Monto: {{ carrito.monto_a_pagar }}
+            <h5>Usuario: {{ carrito.usuario_fk.username }}</h5>
+            <h2 style="color:blue">Monto: {{ carrito.monto_a_pagar }}</h2>
             {% if detalle|length > 0 %}
                 {% for det in detalle %}
                      <div class="col-md-12" style="margin-bottom: 6px">
                         <div class="col-md-8">
                             Articulo: {{ det.id }}, Cantidad: {{ det.cantidad_articulos }}
+                            <img src="/Articulos/{{det.articulo_fk.imagen}}" width="100" height="100">
                          </div>
                          <div class="col-md-4">
                          </div>
