@@ -30,6 +30,9 @@ class ArticuloForm(forms.ModelForm):
             'nombre': 'Nombre',
             'descripcion': 'Descripcion',
             'precio': 'Precio',
-            'seccion': 'Seccion',
+            'seccion_fk': 'Seccion',
             'imagen': 'Imagen',
         }
+    def __init__(self, *args, **kwargs): 
+        super(ArticuloForm, self).__init__(*args, **kwargs) 
+        self.fields['imagen'].required = False
