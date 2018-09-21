@@ -3,9 +3,10 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, render_to_response, HttpResponseRedirect, get_object_or_404
-from apps.Carrito_Ventas.models import Seccion
+from apps.Carrito_Ventas.models import Seccion,Articulo,Usuario,Carrito,Detalle_Carrito,Factura
 from apps.Carrito_Ventas.forms import SeccionForm
 from django.contrib import messages
+from django.http import HttpResponse
  
 def list_secciones(request):
     return render_to_response("listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
@@ -39,3 +40,42 @@ def delete_seccion(request, seccionid):
         return HttpResponseRedirect("/seccion/list/")
     return render(request, 'eliminar_seccion.html',{'seccion':instance})
  
+def list_carrito(request):
+    request.user.id = 1
+    carr = Carrito.objects.get(usuario_fk = request.user.id)
+    deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
+    print carr.monto_a_pagar
+    return render_to_response("listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
+
+def list_articulo_cliente(request):
+    print "hola"
+    request.user.id = '1'
+    return render_to_response("listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request), "user":request.user} )
+
+def add_carrito(request, productoid):
+    request.user.id = 1
+    try:
+        carr =  Carrito.objects.get(usuario_fk = request.user.id)
+        prod =  Articulo.objects.get(id = productoid)
+        if Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) != Detalle_Carrito.DoesNotExist:
+            det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod)
+            det.cantidad_articulos += 1
+            det.save()
+            carr.monto_a_pagar = prod.precio * det.cantidad_articulos
+            carr.save()
+        else:
+            det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+            carr.monto_a_pagar = prod.precio
+            carr.save()
+
+    except Carrito.DoesNotExist:
+        usuario = Usuario.objects.get(id = request.user.id)
+        carr = Carrito.objects.create(usuario_fk = usuario, monto_a_pagar = 0)
+        carr.save()
+        prod =  Articulo.objects.get(id = productoid)
+        det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+        carr.monto_a_pagar = prod.precio
+        carr.save()
+        return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
+    
+    return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
