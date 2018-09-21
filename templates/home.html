@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{%load staticfiles%}
+
+{% block content %}
+<div class="flex-center position-ref full-height">
+{% if request.user.is_authenticated %}
+<div class="top-right links">
+     <a href="/accounts/loggedin/">Inicio</a>   
+	 <a href="/accounts/logout/">Logout</a>   
+</div>
+{% else %}
+<div class="top-right links">
+     <a href="/accounts/login/">Login</a> 
+</div>
+
+{% endif %}     
+  
+    <div class="content">
+        <div class="title m-b-md">
+            Práctica 2
+        </div>
+        <div class="links">
+            <a href="">Grupo 1</a>
+        </div>
+        </div>
+    </div>
+{% endblock %}

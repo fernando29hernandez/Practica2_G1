@@ -1,0 +1,48 @@
+{% extends "secciones.html" %}
+
+{% block title %}
+  Usuario
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+<div class="containter">
+  <div class="row">
+    <div class="col-sm-4">
+
+    </div>
+
+    <div class="col-sm-4">
+      <form method="post">
+        {% csrf_token %} <!--Pongo esto porque estoy usando POST, sino tira error""" -->
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Datos del usuario</h2>
+          </div>
+          <div class="panel-body">
+            {{ form.as_p}}
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-4">
+
+              </div>
+              <div class="col-sm-4">
+                <button type="submit">Guardar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock%}
