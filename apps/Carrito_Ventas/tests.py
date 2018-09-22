@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 # Create your tests here.
@@ -85,6 +86,80 @@ class SeccionTestCase(TestCase):
         response = self.client.post(
             reverse('delete_seccion', kwargs={'seccionid': str(int(idtemp))}))
         self.assertEqual(response.status_code, 302)
+    
+
+
+class LogInTestCase(TestCase):
+    def test_funcion_home(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "home.html")
+
+    def test_funcion_login(self):
+        response = self.client.get("/accounts/login/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "LogIn/login.html")
+
+    def test_funcion_ver(self):
+        #Cuando se quiere iniciar sesión con credenciales incorrectas
+        solicitud = self.client.post("/accounts/auth/", {'username': 'nery','password': '1234'})
+
+        #Cuando voy a iniciar sesión con credenciales validas
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=False)
+        solicitud = self.client.post("/accounts/auth/", {'username': 'admin','password': 'pass@123'})
+        
+        #self.client.login(username='admin', password='pass@123')
+
+
+    def test_funcion_loggedin(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='user', password='pass@123', email='user@user.com',tipo=False)
+        self.client.login(username='user', password='pass@123')
+
+        response = self.client.get("/accounts/loggedin/")
+        ##self.assertEqual(response.status_code, 302) #302 porque es un redirect
+        self.assertEqual(response.status_code, 200) #302 porque es un redirect
+
+
+        #Para cuando es ADMINISTRADOR
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        
+        response = self.client.get("/accounts/loggedin/")
+        ##self.assertEqual(response.status_code, 302) #302 porque es un redirect
+        self.assertEqual(response.status_code, 200) #302 porque es un redirect
+
+    def test_funcion_invalid(self):
+        response = self.client.get("/accounts/invalid/")
+        self.assertEqual(response.status_code, 200)
+        #self.assertTemplateUsed(response, "LogIn/login.html")
+
+    def test_funcion_logout(self):    
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='user', password='pass@123', email='user@user.com',tipo=False)
+        self.client.login(username='user', password='pass@123')
+
+        response = self.client.get("/accounts/logout/")
+        self.assertEqual(response.status_code, 302)    
+
+
+        self.client.logout()
+        
+        #self.client.login(username='admin', password='pass@123')
+
+    def test_funcion_crearUsuario(self):
+        #Método get de crear usuario
+        response = self.client.get("/crearUsuario/")
+        self.assertEqual(response.status_code, 200)
+
+        #Método POST de crear usuario con un formulario válido
+        solicitud = self.client.post("/crearUsuario/", {'username': 'admin','password': 'pass@123'})
+
+        #Método POST de crear usuario con un formulario NO válido
+        solicitud = self.client.post("/crearUsuario/", {'username': 'admin'})
+
 
 class CarritoTestCase(TestCase):
     def setUp(self):
