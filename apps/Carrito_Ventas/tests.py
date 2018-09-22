@@ -119,8 +119,8 @@ class ArticuloTestCase(TestCase):
         response = self.client.post(
             reverse('update_articulo', kwargs={'articuloid': str(int(idtemp))}), 
             {'nombre': 'prueba', 'descripcion': 'Prueba descripcion','precio': '100', 
-                'seccion_fk':str(secc_fk),'imagen': 'Articulo/switch.jpg'})
-        self.assertEqual(response.status_code, 200)
+                'seccion_fk':str(int(Seccion.objects.get(nombre="consolas").id))})
+        self.assertEqual(response.status_code, 302)
     def test_articulo_delete_form_view(self):
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.post(
