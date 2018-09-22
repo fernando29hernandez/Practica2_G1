@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('nombre', models.CharField(max_length=50)),
                 ('descripcion', models.CharField(max_length=50)),
                 ('precio', models.IntegerField()),
-                ('imagen', models.ImageField(upload_to=b'Articulo')),
+                ('imagen', models.ImageField(null=True, upload_to=b'Articulo')),
             ],
         ),
         migrations.CreateModel(

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Usuario
+{% endblock %}
+
+{% block header %}
+    <!-- Just an image -->
+
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"> HOME </a>
+            <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
+            <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="containter">
+  <div class="row">
+    <div class="col-sm-4">
+
+    </div>
+
+    <div class="col-sm-4">
+      <form method="post">
+        {% csrf_token %} <!--Pongo esto porque estoy usando POST, sino tira error""" -->
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Datos del usuario</h2>
+          </div>
+          <div class="panel-body">
+            {{ form.as_p}}
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-sm-4">
+
+              </div>
+              <div class="col-sm-4">
+                <button type="submit">Guardar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock%}

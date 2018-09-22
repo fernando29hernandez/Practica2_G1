@@ -1,9 +1,11 @@
-from django.forms import ModelForm, Textarea, TextInput, URLInput
-from apps.Carrito_Ventas.models import Seccion
-from apps.Carrito_Ventas.models import Articulo
+
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from django.utils.safestring import mark_safe
+
+from django.forms import ModelForm, Textarea, TextInput, URLInput, PasswordInput, EmailInput
+from apps.Carrito_Ventas.models import Seccion, Usuario, Articulo
 
 class SeccionForm(ModelForm):
     class Meta:
@@ -30,6 +32,34 @@ class ArticuloForm(forms.ModelForm):
             'nombre': 'Nombre',
             'descripcion': 'Descripcion',
             'precio': 'Precio',
-            'seccion': 'Seccion',
+            'seccion_fk': 'Seccion',
             'imagen': 'Imagen',
         }
+    def __init__(self, *args, **kwargs): 
+        super(ArticuloForm, self).__init__(*args, **kwargs) 
+        self.fields['imagen'].required = False
+
+class CrearUsuarioForm(ModelForm):
+     class Meta:
+         model = Usuario
+         fields = [
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'email',
+         ]
+         labels = {
+            'username':'Nombre de usuario',
+            'password':'Contraseña',
+            'first_name':'Nombre',
+            'last_name':'Apellido',
+            'email':'Correo electrónico',
+         }
+         widgets = {
+            'username':TextInput(attrs={'class':'form-control'}),
+            'password':PasswordInput(attrs={'class':'form-control'}),
+            'first_name':TextInput(attrs={'class':'form-control'}),
+            'last_name':TextInput(attrs={'class':'form-control'}),
+            'email':EmailInput(attrs={'class':'form-control'}),
+         }
