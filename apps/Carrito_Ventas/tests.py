@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 # Create your tests here.
 from django.test import TestCase
-from apps.Carrito_Ventas.models import Seccion, Articulo
+from apps.Carrito_Ventas.models import Seccion, Articulo, Usuario, Carrito, Detalle_Carrito, Factura
 from apps.Carrito_Ventas.forms import SeccionForm, ArticuloForm
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
-
+from django.contrib.auth.models import User
+from django.test import Client
+from django.contrib.auth import authenticate, login
 class SeccionTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="electrodomesticos",descripcion="area de articulos para el hogar")
         a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es un juego")
-  
     def test_seccion1(self):
         seccion1 = Seccion.objects.get(nombre="electrodomesticos")
         self.assertEqual(seccion1.nombre, "electrodomesticos")  
@@ -19,43 +21,141 @@ class SeccionTestCase(TestCase):
         seccion2 = Seccion.objects.get(nombre="videojuegos")
         self.assertEqual(seccion2.nombre, "videojuegos")
     def test_form_seccion(self):
-       form = SeccionForm(data={'nombre': "Seccion de prueba", 'descripcion': "Descripcion de prueba"})
-       self.assertTrue(form.is_valid())
+        form = SeccionForm(data={'nombre': "Seccion de prueba", 'descripcion': "Descripcion de prueba"})
+        self.assertTrue(form.is_valid())
     def test_secciones_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         response = self.client.get("/seccion/list/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "listar_secciones.html")
     def test_secciones_add_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         response = self.client.get("/seccion/add/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "crear_seccion.html")
     def test_secciones_add_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         user_count = Seccion.objects.count()
         response = self.client.post("/seccion/add/", {'nombre': 'Seccion de prueba1','descripcion': 'Descripcion de prueba'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Seccion.objects.count(), user_count+1)
         self.assertEqual(Seccion.objects.get(nombre="Seccion de prueba1").nombre,"Seccion de prueba1")
     def test_secciones_update_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.get("/seccion/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "crear_seccion.html")   
     def test_secciones_delete_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.get("/seccion/delete/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "eliminar_seccion.html")   
     def test_secciones_update_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.post(
             reverse('update_seccion', kwargs={'seccionid': str(int(idtemp))}), 
             {'nombre': 'The Catcher in the Rye', 'descripcion': 'Prueba'})
         self.assertEqual(response.status_code, 302)
     def test_secciones_delete_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.post(
             reverse('delete_seccion', kwargs={'seccionid': str(int(idtemp))}))
         self.assertEqual(response.status_code, 302)
+    
+
+
+class LogInTestCase(TestCase):
+    def test_funcion_home(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "home.html")
+
+    def test_funcion_login(self):
+        response = self.client.get("/accounts/login/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "LogIn/login.html")
+
+    def test_funcion_ver(self):
+        #Cuando se quiere iniciar sesión con credenciales incorrectas
+        solicitud = self.client.post("/accounts/auth/", {'username': 'nery','password': '1234'})
+
+        #Cuando voy a iniciar sesión con credenciales validas
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=False)
+        solicitud = self.client.post("/accounts/auth/", {'username': 'admin','password': 'pass@123'})
+        
+        #self.client.login(username='admin', password='pass@123')
+
+
+    def test_funcion_loggedin(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='user', password='pass@123', email='user@user.com',tipo=False)
+        self.client.login(username='user', password='pass@123')
+
+        response = self.client.get("/accounts/loggedin/")
+        ##self.assertEqual(response.status_code, 302) #302 porque es un redirect
+        self.assertEqual(response.status_code, 200) #302 porque es un redirect
+
+
+        #Para cuando es ADMINISTRADOR
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        
+        response = self.client.get("/accounts/loggedin/")
+        ##self.assertEqual(response.status_code, 302) #302 porque es un redirect
+        self.assertEqual(response.status_code, 200) #302 porque es un redirect
+
+    def test_funcion_invalid(self):
+        response = self.client.get("/accounts/invalid/")
+        self.assertEqual(response.status_code, 200)
+        #self.assertTemplateUsed(response, "LogIn/login.html")
+
+    def test_funcion_logout(self):    
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='user', password='pass@123', email='user@user.com',tipo=False)
+        self.client.login(username='user', password='pass@123')
+
+        response = self.client.get("/accounts/logout/")
+        self.assertEqual(response.status_code, 302)    
+
+
+        self.client.logout()
+        
+        #self.client.login(username='admin', password='pass@123')
+
+    def test_funcion_crearUsuario(self):
+        #Método get de crear usuario
+        response = self.client.get("/crearUsuario/")
+        self.assertEqual(response.status_code, 200)
+
+        #Método POST de crear usuario con un formulario válido
+        solicitud = self.client.post("/crearUsuario/", {'username': 'admin','password': 'pass@123'})
+
+        #Método POST de crear usuario con un formulario NO válido
+        solicitud = self.client.post("/crearUsuario/", {'username': 'admin'})
+
 
 class ArticuloTestCase(TestCase):
     def setUp(self):
