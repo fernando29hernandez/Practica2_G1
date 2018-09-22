@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Usuario
+{% endblock %}
+
+{% block header %}
+    {% if request.user.is_authenticated %}
+        
+            <!-- Just an image -->
+
+            <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> HOME </a>
+                    <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
+                    <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
+                    <a class="navbar-brand" href="{% url 'list_articulos' %}">Artículos</a>
+                    
+                </div>
+            </nav>
+    
+    {% else %}
+        
+            <!-- Just an image -->
+
+            <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> HOME </a>
+                </div>
+            </nav>
+        
+    {%endif%}
+{% endblock %}
