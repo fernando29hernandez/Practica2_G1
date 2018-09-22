@@ -150,8 +150,12 @@ class LogInTestCase(TestCase):
         response = self.client.get("/crearUsuario/")
         self.assertEqual(response.status_code, 200)
 
-        #Método POST de crear usuario
+        #Método POST de crear usuario con un formulario válido
         solicitud = self.client.post("/crearUsuario/", {'username': 'admin','password': 'pass@123'})
+
+        #Método POST de crear usuario con un formulario NO válido
+        solicitud = self.client.post("/crearUsuario/", {'username': 'admin'})
+
 
 class ArticuloTestCase(TestCase):
     def setUp(self):

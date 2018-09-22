@@ -100,10 +100,13 @@ def CrearUsuario(request):
 
 def encriptarpassword(password):
 	#Verifica si la contrasea ya está encriptada
-	if encriptador.is_password_usable(password):
-		return password #Si ya está encriptada regreso la misma contraseña
-	else:
-		return encriptador.make_password(password,salt=None,hasher='default')
+	#if encriptador.is_password_usable(password):
+	#	return password #Si ya está encriptada regreso la misma contraseña
+	#else:
+	#	return encriptador.make_password(password,salt=None,hasher='default')
+
+    #Siempre voy a encriptar
+    return encriptador.make_password(password,salt=None,hasher='default')
 
 
 
