@@ -1,33 +1,90 @@
 {% extends "base.html" %}
+{%load staticfiles%}
 
 {% block title %}
   Usuario
-{% endblock %}
+ 
+  {% endblock %}
 
 {% block header %}
-    {% if request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
         
-            <!-- Just an image -->
+<!-- Just an image -->
+<div id="app">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Branding Image -->
+                <a class="navbar-brand" href="/accounts/loggedin">
+                    HOME
+                </a>
+            </div>
+             <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                    &nbsp;
+                </ul>
 
-            <nav class="navbar navbar-inverse">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/"> HOME </a>
-                    <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
-                    <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
-                    <a class="navbar-brand" href="{% url 'list_articulos' %}">Artículos</a>
-                    
-                </div>
-            </nav>
-    
-    {% else %}
-        
-            <!-- Just an image -->
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Secciones <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'list_secciones' %}">Administrar Secciones</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'add_seccion' %}">Agregar Seccion</a></li>
+            <li role="separator" class="divider"></li>
+         </ul>
+        </li>
+    </ul>
 
-            <nav class="navbar navbar-inverse">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/"> HOME </a>
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articulos<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'list_articulos' %}">Administrar Articulos</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'add_articulo'  %}">Agregar Articulo</a></li>
+            <li role="separator" class="divider"></li>
+         </ul>
+        </li>
+    </ul>
+                        <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ user.get_username }} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                <a href="/accounts/logout/">Logout</a>
+                                 </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        
-    {%endif%}
+            </div>
+        </nav>
+    </div>
+
+
+{% else %}
+
+<!-- Just an image -->
+
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/"> HOME </a>
+    </div>
+</nav>
+
+{%endif%}
+
 {% endblock %}

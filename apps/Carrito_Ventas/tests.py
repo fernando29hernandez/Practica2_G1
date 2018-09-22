@@ -86,6 +86,10 @@ class SeccionTestCase(TestCase):
 
 
 class LogInTestCase(TestCase):
+    def test_model_usuario(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.assertEqual(self.user.__str__(),str(self.user.id) +" "+self.user.username)
     def test_funcion_home(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
@@ -163,6 +167,10 @@ class ArticuloTestCase(TestCase):
         a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es un juego")
         Articulo.objects.create(nombre="play station", descripcion="consola de 500Gb",precio=3000,seccion_fk=a1,imagen="Articulo/switch.jpg")
         Articulo.objects.create(nombre="Spider-Man", descripcion="juego para play station 4",precio=700,seccion_fk=a2,imagen="Articulo/switch.jpg")
+    def test_model_articulo(self):
+        a3 = Seccion.objects.create(nombre="consolas",descripcion="consolas de video juegos")
+        self.articulo1 = Articulo.objects.create(nombre="play station4", descripcion="consola de 500Gb",precio=3000,seccion_fk=a3,imagen="Articulo/switch.jpg")
+        self.assertEqual(self.articulo1.__str__(),str(self.articulo1.id) +" "+self.articulo1.nombre)    
     def test_articulo1(self):
         articulo1 = Articulo.objects.get(nombre="play station")
         self.assertEqual(articulo1.nombre,"play station")
@@ -188,14 +196,23 @@ class ArticuloTestCase(TestCase):
         print(form.errors)
         self.assertTrue(form.is_valid())
     def test_articulos_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         response = self.client.get("/articulo/list/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "listar_articulos.html")
     def test_articulos_add_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         response = self.client.get("/articulo/add/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "crear_articulo.html")
     def test_articulos_add_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         seccionprueba = Seccion.objects.create(nombre="hola",descripcion="prueba")
         user_count = Articulo.objects.count()
         response = self.client.post("/articulo/add/", {'nombre': 'prueba1',
@@ -204,16 +221,25 @@ class ArticuloTestCase(TestCase):
         self.assertEqual(Articulo.objects.count(), user_count+1)
         self.assertEqual(Articulo.objects.get(nombre="prueba1").nombre,"prueba1")
     def test_articulo_update_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.get("/articulo/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "crear_articulo.html")  
     def test_articulo_delete_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.get("/articulo/delete/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "eliminar_articulo.html")
     def test_articulo_update_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         idtemp=Articulo.objects.get(nombre="play station").id
         secc_fk = Articulo.objects.get(nombre="play station").seccion_fk
         response = self.client.post(
@@ -222,6 +248,9 @@ class ArticuloTestCase(TestCase):
                 'seccion_fk':str(int(Seccion.objects.get(nombre="consolas").id))})
         self.assertEqual(response.status_code, 302)
     def test_articulo_delete_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.post(
             reverse('delete_articulo', kwargs={'articuloid': str(int(idtemp))}))

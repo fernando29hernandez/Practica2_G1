@@ -116,7 +116,7 @@ def encriptarpassword(password):
 
 @login_required
 def list_secciones(request):
-    return render_to_response("listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
+    return render(request,"listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
 
 @login_required
 def add_seccion(request):
@@ -150,10 +150,11 @@ def delete_seccion(request, seccionid):
         return HttpResponseRedirect("/seccion/list/")
     return render(request, 'eliminar_seccion.html',{'seccion':instance})
  
+@login_required
 def list_articulos(request):
-    return render_to_response("listar_articulos.html", {"articulos": Articulo.objects.all(), "messages": messages.get_messages(request)})
+    return render(request,"listar_articulos.html", {"articulos": Articulo.objects.all(), "messages": messages.get_messages(request)})
 
-
+@login_required
 def add_articulo(request):
     form = ArticuloForm(request.POST, request.FILES)
     if request.method == 'POST':
@@ -164,6 +165,7 @@ def add_articulo(request):
  
     return render(request, 'crear_articulo.html', {'form': form})
  
+@login_required
 def update_articulo(request, articuloid):
     instance = get_object_or_404(Articulo, id=articuloid)
     form = ArticuloForm(request.POST or None, instance=instance)
@@ -175,6 +177,7 @@ def update_articulo(request, articuloid):
  
     return render(request, 'crear_articulo.html', {'form': form})
  
+@login_required
 def delete_articulo(request, articuloid):
     instance =Articulo.objects.get(id=articuloid)
     if request.method == 'POST':

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{%load staticfiles%}
 
 {% block title %}
   Usuario
@@ -10,8 +11,6 @@
     <nav class="navbar navbar-inverse">
         <div class="navbar-header">
             <a class="navbar-brand" href="/"> HOME </a>
-            <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
-            <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
         </div>
     </nav>
 {% endblock %}

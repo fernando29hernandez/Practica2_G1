@@ -1,15 +1,10 @@
-{% extends "secciones.html" %}
-<!--heredamos el bloque title-->
+{% extends "LogIn/loggedin.html" %}
 {% block title %}
- <!--establecemos el titulo en el bloque title-->
  Listado de Posts
 {% endblock %}
-<!--finaliza el bloque title-->
  
-<!--heredamos el bloque content-->
 {% block content %}
 <div class="row">
-    <!-- mostramos los mensajes flash -->
     {% if messages %}
         <div class="alert alert-success">
             {% for message in messages %}
@@ -39,8 +34,6 @@
     </div>
 </div>
 {% endblock %}
-<!--finaliza el bloque content-->
-<!--heredamos el bloque footer-->
 {% block footer %}
  <div class="navbar navbar-inverse navbar-fixed-bottom">
  <div class="text-center" style="padding-top: 12px">
@@ -48,4 +41,3 @@
      </div>
  </div>
 {% endblock %}
-<!--finaliza el bloque footer-->
