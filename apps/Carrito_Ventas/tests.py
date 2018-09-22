@@ -219,18 +219,14 @@ class CarritoTestCase(TestCase):
         self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
         self.client.login(username='admin2', password='pass2@123')
         prod =  Articulo.objects.get(id = idarti)
-
         try:
-            carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500)
+            carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500) 
+            if  Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist: 
+                det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1) 
+            else: 
+                det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) 
 
-            if  Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist:
-                det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
-            else:
-                det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod)
-                
-        except Carrito.DoesNotExist:
-            carr = Carrito.objects.create(usuario_fk = self.user, monto_a_pagar = 0)
-            det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+        except Carrito.DoesNotExist: 
             response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response, "listar_articulos_cliente.html")
@@ -239,6 +235,17 @@ class CarritoTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "listar_articulos_cliente.html")
 
+    def test_add_carrito2(self):
+        idarti=Articulo.objects.get(nombre="Escudo").id
+
+        self.client = Client()        
+        self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
+        self.client.login(username='admin2', password='pass2@123')
+        prod =  Articulo.objects.get(id = idarti)
+        response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "listar_articulos_cliente.html")
+         
 class ArticuloTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="consolas",descripcion="consolas de video juegos")
