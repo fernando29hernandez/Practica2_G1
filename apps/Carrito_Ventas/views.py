@@ -77,7 +77,8 @@ def delete_articulo(request, articuloid):
 
 def list_carrito(request):
     request.user.id = 1
-    carr = Carrito.objects.get(usuario_fk = request.user.id)
+    usuario = Usuario.objects.get(id = request.user.id)
+    carr = Carrito.objects.get(usuario_fk = usuario)
     deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
     return render_to_response("listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
 
