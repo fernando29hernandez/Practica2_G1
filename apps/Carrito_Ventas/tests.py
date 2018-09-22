@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from apps.Carrito_Ventas.models import Seccion
 from apps.Carrito_Ventas.forms import SeccionForm
+from django.core.context_processors import csrf
 
 class SeccionTestCase(TestCase):
     def setUp(self):
@@ -55,3 +56,22 @@ class SeccionTestCase(TestCase):
             reverse('delete_seccion', kwargs={'seccionid': str(int(idtemp))}))
         self.assertEqual(response.status_code, 302)
     
+
+
+class LogInTestCase(TestCase):
+    def test_funcion_home(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "home.html")
+
+    def test_funcion_login(self):
+        response = self.client.get("/accounts/login/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "LogIn/login.html")
+
+    def test_funcion_ver(self):
+        solicitud = self.client.post("/accounts/auth/", {'username': 'nery','password': '1234'})
+
+        
+        response = self.client.get("/accounts/loggedin/")
+        self.assertEqual(response.status_code, 302) #302 porque es un redirect

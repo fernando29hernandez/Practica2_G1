@@ -21,9 +21,9 @@ def home(request):
     return render(request, 'home.html')
 
 def login(request):
-    c = {}
-    c.update(csrf(request))
-    return render(request , 'LogIn/login.html', c)
+	#c = {}
+	#c.update(csrf(request))
+	return render(request , 'LogIn/login.html')
 
 def ver(request):
 	username=request.POST.get('username','')
