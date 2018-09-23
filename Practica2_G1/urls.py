@@ -29,6 +29,11 @@ urlpatterns = [
     url(r'^seccion/(?P<seccionid>\d+)/', 'apps.Carrito_Ventas.views.update_seccion', name='update_seccion'), #formulario para editar
     url(r'^seccion/delete/(?P<seccionid>\d+)/', 'apps.Carrito_Ventas.views.delete_seccion', name='delete_seccion'), #ruta para eliminar
 
+    url(r'^carrito/list', 'apps.Carrito_Ventas.views.list_carrito', name='list_carrito'), #listado carrito
+    url(r'^articulosCliente/list', 'apps.Carrito_Ventas.views.list_articulo_cliente', name="list_articulo_cliente"), #listado articulos cliente
+
+    url(r'^articulosCliente/add_carrito/(?P<productoid>\d+)/', 'apps.Carrito_Ventas.views.add_carrito', name="add_carrito"), #add carrito
+
     url(r'^articulo/list', 'apps.Carrito_Ventas.views.list_articulos', name='list_articulos'), #listado
     url(r'^articulo/add/', 'apps.Carrito_Ventas.views.add_articulo', name='add_articulo'), #formulario para añadir
     url(r'^articulo/(?P<articuloid>\d+)/', 'apps.Carrito_Ventas.views.update_articulo', name='update_articulo'), #formulario para editar

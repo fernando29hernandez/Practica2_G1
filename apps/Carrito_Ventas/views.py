@@ -4,9 +4,13 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render, render_to_response, HttpResponseRedirect, get_object_or_404
 
-from apps.Carrito_Ventas.models import Seccion, Usuario, Articulo
+from apps.Carrito_Ventas.models import Seccion,Articulo,Usuario,Carrito,Detalle_Carrito,Factura
 from apps.Carrito_Ventas.forms import SeccionForm, CrearUsuarioForm, ArticuloForm
+from apps.Carrito_Ventas.models import Articulo
+from apps.Carrito_Ventas.forms import ArticuloForm
 from django.contrib import messages
+from django.http import HttpResponse
+ 
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
@@ -109,11 +113,6 @@ def encriptarpassword(password):
     return encriptador.make_password(password,salt=None,hasher='default')
 
 
-
-
-
-
-
 @login_required
 def list_secciones(request):
     return render(request,"listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
@@ -185,3 +184,39 @@ def delete_articulo(request, articuloid):
         messages.add_message(request, messages.SUCCESS, "The post has been Deleted!")
         return HttpResponseRedirect("/articulo/list")
     return render(request, 'eliminar_articulo.html',{'articulo':instance})
+
+def list_carrito(request):
+    usuario = Usuario.objects.get(id = request.user.id)
+    carr = Carrito.objects.get(usuario_fk = usuario)
+    deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
+    return render_to_response("listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
+
+def list_articulo_cliente(request):
+    # print "hola"
+    return render_to_response("listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request), "user":request.user} )
+
+def add_carrito(request, productoid):
+    usuario = Usuario.objects.get(id = request.user.id)
+    prod =  Articulo.objects.get(id = productoid)
+    try:
+        carr =  Carrito.objects.get(usuario_fk = usuario)
+        if Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist:
+            det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+            carr.monto_a_pagar = prod.precio
+            carr.save()
+        else:
+            det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod)
+            det.cantidad_articulos += 1
+            det.save()
+            carr.monto_a_pagar = prod.precio * det.cantidad_articulos
+            carr.save()
+
+    except Carrito.DoesNotExist:
+        carr = Carrito.objects.create(usuario_fk = usuario, monto_a_pagar = 0)
+        carr.save()
+        det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+        carr.monto_a_pagar = prod.precio
+        carr.save()
+        return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
+    
+    return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})

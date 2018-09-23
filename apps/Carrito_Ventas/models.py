@@ -32,4 +32,3 @@ class Detalle_Carrito(models.Model):
 class Factura(models.Model):
     usuario_fk = models.ForeignKey(Usuario,on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=3000)
-
