@@ -219,12 +219,9 @@ class CarritoTestCase(TestCase):
         self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
         self.client.login(username='admin2', password='pass2@123')
         prod =  Articulo.objects.get(id = idarti)
+
         try:
             carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500) 
-            if  Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist: 
-                det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1) 
-            else: 
-                det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) 
 
         except Carrito.DoesNotExist: 
             response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
