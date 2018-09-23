@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-
+#from prettytable import PrettyTable
+from beautifultable import BeautifulTable
 # Create your views here.
 from django.shortcuts import render, render_to_response, HttpResponseRedirect, get_object_or_404
 
@@ -43,7 +44,7 @@ def ver(request):
 @login_required
 def loggedin(request):
 	cursor = connection.cursor()
-	resultado = cursor.execute("select tipo from carrito_ventas_usuario where id = %s", [request.user.id])
+	resultado = cursor.execute("select tipo from Carrito_Ventas_usuario where id = %s", [request.user.id])
 	
 	results = dictfetchall(cursor)
 	r = results[0]['tipo']
@@ -217,3 +218,30 @@ def add_carrito(request, productoid):
         return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
     
     return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
+
+
+def list_facturas(request):
+    return render_to_response("listar_facturas.html", {"facturas": Factura.objects.all()})
+
+def add_factura(request, carritoid):
+    carr = Carrito.objects.get(id=carritoid)
+    dett = Detalle_Carrito.objects.filter(carrito_fk = carritoid)
+
+    table = BeautifulTable()
+    table.column_headers = ['No.', 'Nombre', 'Precio', 'Cantidad']
+    i = 1
+    for dd in dett:
+        
+        table.append_row([i, dd.articulo_fk.nombre, dd.articulo_fk.precio, dd.cantidad_articulos])
+        i = i + 1
+
+    print(table)
+    algo = "\n" + table.get_string()
+    algo += "\n\n\t\t\tTotal: " + str(carr.monto_a_pagar)
+    facc = Factura.objects.create(usuario_fk = carr.usuario_fk, descripcion = algo)
+    facc.save()
+    # Detalle_Carrito.objects.filter(carrito_fk = carritoid).delete()
+    # Detalle_Carrito.save()
+    unaFac = Factura.objects.get(id = facc.id)
+    return render_to_response("factura.html", {"factura": unaFac})
+    
