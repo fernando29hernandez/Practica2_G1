@@ -20,6 +20,9 @@ urlpatterns = [
 
     url(r'^crearUsuario2/', views.CrearUsuario2.as_view(), name="CrearUsuario2"),
     url(r'^crearUsuario/', views.CrearUsuario, name="CrearUsuario"),
+    url(r'^usuario/list/', 'apps.Carrito_Ventas.views.list_usuarios', name="list_usuarios"),
+    url(r'^usuario/(?P<usuarioid>\d+)/', 'apps.Carrito_Ventas.views.update_usuario', name='update_usuario'), #formulario para editar
+    url(r'^usuario/delete/(?P<usuarioid>\d+)/', 'apps.Carrito_Ventas.views.delete_usuario', name='delete_usuario'), #ruta para eliminar
 
 
     url(r'^admin/', include(admin.site.urls)),

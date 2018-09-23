@@ -163,7 +163,42 @@ class LogInTestCase(TestCase):
 
         #Método POST de crear usuario con un formulario NO válido
         solicitud = self.client.post("/crearUsuario/", {'username': 'admin'})
-
+    def test_view_user(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.get("/usuario/list/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "listar_usuarios.html")
+    def test_secciones_update_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')        
+        response = self.client.get("/usuario/"+str(self.user.id)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "editar_usuario.html")   
+    def test_secciones_delete_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.get("/usuario/delete/"+str(self.user.id)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "eliminar_usuario.html")   
+    def test_usuario_update_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.post(
+            reverse('update_usuario', kwargs={'usuarioid': str(int(self.user.id))}), 
+            {'username': 'prueba', 'email': 'hola@gmail.com','password':'asafdf52s+A','tipo':0,'last_name':'sdsd','first_name':'sdsds'})
+        self.assertEqual(response.status_code, 302)
+    def test_usuario_delete_form_view(self):
+        self.client = Client() # May be you have missed this line
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.post(
+            reverse('delete_usuario', kwargs={'usuarioid': str(int(self.user.id))}))
+        self.assertEqual(response.status_code, 302)
 
 class CarritoTestCase(TestCase):
     def setUp(self):
@@ -225,16 +260,9 @@ class CarritoTestCase(TestCase):
         prod =  Articulo.objects.get(id = idarti)
 
         try:
-            carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500)
+            carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500) 
 
-            if  Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist:
-                det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
-            else:
-                det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod)
-                
-        except Carrito.DoesNotExist:
-            carr = Carrito.objects.create(usuario_fk = self.user, monto_a_pagar = 0)
-            det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
+        except Carrito.DoesNotExist: 
             response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response, "listar_articulos_cliente.html")
@@ -243,6 +271,17 @@ class CarritoTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "listar_articulos_cliente.html")
 
+    def test_add_carrito2(self):
+        idarti=Articulo.objects.get(nombre="Escudo").id
+
+        self.client = Client()        
+        self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
+        self.client.login(username='admin2', password='pass2@123')
+        prod =  Articulo.objects.get(id = idarti)
+        response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "listar_articulos_cliente.html")
+         
 class ArticuloTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="consolas",descripcion="consolas de video juegos")

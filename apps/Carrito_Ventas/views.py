@@ -7,7 +7,7 @@ from django.shortcuts import render, render_to_response, HttpResponseRedirect, g
 from apps.Carrito_Ventas.models import Seccion,Articulo,Usuario,Carrito,Detalle_Carrito,Factura
 from apps.Carrito_Ventas.forms import SeccionForm, CrearUsuarioForm, ArticuloForm
 from apps.Carrito_Ventas.models import Articulo
-from apps.Carrito_Ventas.forms import ArticuloForm
+from apps.Carrito_Ventas.forms import ArticuloForm,CrearUsuarioTipoForm
 from django.contrib import messages
 from django.http import HttpResponse
  
@@ -111,6 +111,30 @@ def encriptarpassword(password):
 
     #Siempre voy a encriptar
     return encriptador.make_password(password,salt=None,hasher='default')
+@login_required
+def list_usuarios(request):
+    return render(request,"listar_usuarios.html", {"usuarios": Usuario.objects.all(), "messages": messages.get_messages(request)})
+
+@login_required
+def delete_usuario(request, usuarioid):
+    instance =Usuario.objects.get(id=usuarioid)
+    if request.method == 'POST':
+        instance.delete()
+        messages.add_message(request, messages.SUCCESS, "The usuario has been Deleted!")
+        return HttpResponseRedirect("/usuario/list/")
+    return render(request, 'eliminar_usuario.html',{'usuario':instance})
+
+@login_required
+def update_usuario(request, usuarioid):
+    instance = get_object_or_404(Usuario, id=usuarioid)
+    form = CrearUsuarioTipoForm(request.POST or None, instance=instance)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "The usuario has been updated!")
+            return HttpResponseRedirect("/usuario/list/")
+ 
+    return render(request, 'editar_usuario.html', {'form': form})
 
 
 @login_required
@@ -189,11 +213,11 @@ def list_carrito(request):
     usuario = Usuario.objects.get(id = request.user.id)
     carr = Carrito.objects.get(usuario_fk = usuario)
     deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
-    return render_to_response("listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
+    return render(request,"listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
 
 def list_articulo_cliente(request):
     # print "hola"
-    return render_to_response("listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request), "user":request.user} )
+    return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request), "user":request.user} )
 
 def add_carrito(request, productoid):
     usuario = Usuario.objects.get(id = request.user.id)
