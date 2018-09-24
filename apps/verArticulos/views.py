@@ -40,6 +40,7 @@ def filtrar_categorias(request):
 def add_carrito(request, productoid):
     usuario = Usuario.objects.get(id = request.user.id)
     prod =  Articulo.objects.get(id = productoid)
+    seccion = Seccion.objects.all()
     print "va por aqui"
     try:
         carr =  Carrito.objects.get(usuario_fk = usuario)
@@ -65,4 +66,4 @@ def add_carrito(request, productoid):
         print "entro a la exepcion"
         return render(request,"products1.html", {"productos":Articulo.objects.all(), "messages": messages.get_messages(request)})
     print "aqui esta al final"
-    return render(request,"products1.html", {"productos":Articulo.objects.all(), "messages": messages.get_messages(request)})
+    return render(request,"products1.html", {"productos":Articulo.objects.all(), "messages": messages.get_messages(request), "secciones":seccion})
