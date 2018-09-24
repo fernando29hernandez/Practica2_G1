@@ -42,4 +42,6 @@ urlpatterns = [
     url(r'^articulo/(?P<articuloid>\d+)/', 'apps.Carrito_Ventas.views.update_articulo', name='update_articulo'), #formulario para editar
     url(r'^articulo/delete/(?P<articuloid>\d+)/', 'apps.Carrito_Ventas.views.delete_articulo', name='delete_articulo'), #ruta para eliminar
     url(r'^listarArticulos/', include('apps.verArticulos.urls')),
+    url(r'^factura/list', 'apps.verArticulos.views.list_facturas', name='list_facturas'), #listado de facturas
+    url(r'^factura/(?P<carritoid>\d+)/', 'apps.verArticulos.views.add_factura', name='add_factura'), #listado de facturas
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

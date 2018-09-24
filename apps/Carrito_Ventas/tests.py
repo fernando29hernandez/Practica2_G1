@@ -387,3 +387,36 @@ class ArticuloTestCase(TestCase):
         response = self.client.post(
             reverse('delete_articulo', kwargs={'articuloid': str(int(idtemp))}))
         self.assertEqual(response.status_code, 302)
+
+class FacturaTestCase(TestCase):
+    def setUp(self):
+        a1 = Seccion.objects.create(nombre="electrodomesticos",descripcion="area de articulos para el hogar")
+        a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es un juego")
+        art1 = Articulo.objects.create(nombre="Micro Ondas",descripcion="micro",precio=300,imagen="Articulo/Under_the_bridge.jpg",seccion_fk=a1)
+        art2 = Articulo.objects.create(nombre="Escudo",descripcion="USAC",precio=100,imagen="Articulo/logo.png",seccion_fk=a2)
+        u1 = Usuario.objects.create(password="1234",is_superuser=1,username="samuel",first_name="samuel",last_name="rosales",email="samuel@mail.com",is_staff=1,is_active=1,date_joined=datetime.now(),tipo=1)
+        self.user = u1
+        ca = Carrito.objects.create(usuario_fk=u1,monto_a_pagar=500)
+        de1 = Detalle_Carrito.objects.create(carrito_fk=ca,articulo_fk=art1,cantidad_articulos=1)
+        de2 = Detalle_Carrito.objects.create(carrito_fk=ca,articulo_fk=art2,cantidad_articulos=1)
+
+    def test_crear_factura(self):
+        
+        self.client = Client()        
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)         
+        self.client.login(username='admin', password='pass@123')
+        ca = Carrito.objects.create(usuario_fk = self.user ,monto_a_pagar=500)
+
+        response = self.client.get("/factura/"+ str(ca.id)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "factura.html")
+
+    def test_listar_factura(self):
+
+        self.client = Client()        
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)         
+        self.client.login(username='admin', password='pass@123')
+
+        response = self.client.get("/factura/list/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "listar_facturas.html")

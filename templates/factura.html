@@ -1,0 +1,47 @@
+{% extends "LogIn/loggedin.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+ <!--establecemos el titulo en el bloque title-->
+ Listado de Posts
+{% endblock %}
+<!--finaliza el bloque title-->
+ 
+<!--heredamos el bloque content-->
+{% block content %}
+<div class="row">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            
+                <h2>Factura De Compra.</h2>
+
+                     <div class="col-md-12" style="margin-bottom: 6px">
+                        <div class="col-md-8">
+                            <hr>
+                            Title: {{ factura.usuario_fk }}<br>
+                            Detalle:
+                            <pre>
+                                {{ factura.descripcion }}
+                            </pre>                            
+                         </div>
+                     </div>
+                <hr>
+     
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+<!--finaliza el bloque content-->
+<!--heredamos el bloque footer-->
+{% block footer %}
+ <div class="navbar navbar-inverse navbar-fixed-bottom">
+ <div class="text-center" style="padding-top: 12px">
+ <small style="color: #fff">Footer Secciones List</small>
+     </div>
+ </div>
+{% endblock %}
+<!--finaliza el bloque footer-->

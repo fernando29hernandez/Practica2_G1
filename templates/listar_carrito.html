@@ -33,6 +33,7 @@
                          </div>
                      </div>
                 {% endfor %}
+                <a href="{% url 'add_factura' carrito.id  %}" class="btn btn-default">Comprar</a>
             {% else %}
                 <p>No hay carrito</p>
             {% endif %}
@@ -42,11 +43,5 @@
 {% endblock %}
 <!--finaliza el bloque content-->
 <!--heredamos el bloque footer-->
-{% block footer %}
- <div class="navbar navbar-inverse navbar-fixed-bottom">
- <div class="text-center" style="padding-top: 12px">
- <small style="color: #fff">Footer Secciones List</small>
-     </div>
- </div>
-{% endblock %}
+
 <!--finaliza el bloque footer-->
