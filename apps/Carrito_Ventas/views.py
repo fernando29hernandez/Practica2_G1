@@ -10,7 +10,7 @@ from apps.Carrito_Ventas.models import Articulo
 from apps.Carrito_Ventas.forms import ArticuloForm,CrearUsuarioTipoForm
 from django.contrib import messages
 from django.http import HttpResponse
- 
+
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
@@ -44,10 +44,10 @@ def ver(request):
 def loggedin(request):
 	cursor = connection.cursor()
 	resultado = cursor.execute("select tipo from carrito_ventas_usuario where id = %s", [request.user.id])
-	
+
 	results = dictfetchall(cursor)
 	r = results[0]['tipo']
-	
+
 	#Verifico si es un administrador
 	if r == 0:
 		print "Administrador"
@@ -57,15 +57,15 @@ def loggedin(request):
 	#Si es un usuario normal (NO administrador)
 	print "Usuario normal"
 	return render(request,'LogIn/loggedin.html')
-	
+
 def invalid(request):
 	return render_to_response('LogIn/invalid.html')
 
 @login_required
 def logout(request):
 	auth.logout(request)
-	return redirect(reverse('apps.Carrito_Ventas.views.login'))	
-	
+	return redirect(reverse('apps.Carrito_Ventas.views.login'))
+
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -89,13 +89,13 @@ def CrearUsuario(request):
 		if form.is_valid():
 			#form.save()
 			v = form.save(commit = False)
-			
+
 			v.tipo = True #Indico que es un usuario normal
 			v.password = encriptarpassword(v.password) #Veo si tengo que encriptar la contraseña
 			v.save()
 		else:
 			print("ERROR")
-		return redirect(reverse('apps.Carrito_Ventas.views.login'))	
+		return redirect(reverse('apps.Carrito_Ventas.views.login'))
 	else:#Si es un GET se renderiza el formulario
 		form = CrearUsuarioForm()
 
@@ -149,7 +149,7 @@ def add_seccion(request):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been saved!")
             return HttpResponseRedirect("/seccion/list/")
- 
+
     return render(request, 'crear_seccion.html', {'form': form})
 
 @login_required
@@ -161,9 +161,9 @@ def update_seccion(request, seccionid):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been updated!")
             return HttpResponseRedirect("/seccion/list/")
- 
+
     return render(request, 'crear_seccion.html', {'form': form})
- 
+
 @login_required
 def delete_seccion(request, seccionid):
     instance =Seccion.objects.get(id=seccionid)
@@ -185,7 +185,7 @@ def add_articulo(request):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been saved!")
             return HttpResponseRedirect("/articulo/list/")
- 
+
     return render(request, 'crear_articulo.html', {'form': form})
  
 @login_required
@@ -197,7 +197,7 @@ def update_articulo(request, articuloid):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been updated!")
             return HttpResponseRedirect("/articulo/list/")
- 
+
     return render(request, 'crear_articulo.html', {'form': form})
  
 @login_required
@@ -210,37 +210,10 @@ def delete_articulo(request, articuloid):
     return render(request, 'eliminar_articulo.html',{'articulo':instance})
 
 def list_carrito(request):
-    usuario = Usuario.objects.get(id = request.user.id)
-    carr = Carrito.objects.get(usuario_fk = usuario)
-    deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
-    return render(request,"listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })
-
-def list_articulo_cliente(request):
-    # print "hola"
-    return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request), "user":request.user} )
-
-def add_carrito(request, productoid):
-    usuario = Usuario.objects.get(id = request.user.id)
-    prod =  Articulo.objects.get(id = productoid)
     try:
-        carr =  Carrito.objects.get(usuario_fk = usuario)
-        if Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod) == Detalle_Carrito.DoesNotExist:
-            det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
-            carr.monto_a_pagar = prod.precio
-            carr.save()
-        else:
-            det = Detalle_Carrito.objects.get(carrito_fk = carr, articulo_fk = prod)
-            det.cantidad_articulos += 1
-            det.save()
-            carr.monto_a_pagar = prod.precio * det.cantidad_articulos
-            carr.save()
-
+        usuario = Usuario.objects.get(id = request.user.id)
+        carr = Carrito.objects.get(usuario_fk = usuario)
+        deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
     except Carrito.DoesNotExist:
-        carr = Carrito.objects.create(usuario_fk = usuario, monto_a_pagar = 0)
-        carr.save()
-        det = Detalle_Carrito.objects.create(carrito_fk = carr, articulo_fk = prod,cantidad_articulos = 1)
-        carr.monto_a_pagar = prod.precio
-        carr.save()
-        return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
-    
-    return render(request,"listar_articulos_cliente.html", {"articulos":Articulo.objects.all(), "messages": messages.get_messages(request)})
+        return HttpResponse("no hay nada en carrito")
+    return render(request,  "listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })

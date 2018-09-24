@@ -17,10 +17,10 @@ class SeccionTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="electrodomesticos",descripcion="area de articulos para el hogar")
         a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es un juego")
-          
+
     def test_seccion1(self):
         seccion1 = Seccion.objects.get(nombre="electrodomesticos")
-        self.assertEqual(seccion1.nombre, "electrodomesticos")  
+        self.assertEqual(seccion1.nombre, "electrodomesticos")
     def test_seccion2(self):
         seccion2 = Seccion.objects.get(nombre="videojuegos")
         self.assertEqual(seccion2.nombre, "videojuegos")
@@ -54,11 +54,11 @@ class SeccionTestCase(TestCase):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
         self.client.login(username='admin', password='pass@123')
-        
+
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.get("/seccion/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "crear_seccion.html")   
+        self.assertTemplateUsed(response, "crear_seccion.html")
     def test_secciones_delete_view(self):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
@@ -66,27 +66,27 @@ class SeccionTestCase(TestCase):
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.get("/seccion/delete/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "eliminar_seccion.html")   
+        self.assertTemplateUsed(response, "eliminar_seccion.html")
     def test_secciones_update_form_view(self):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
         self.client.login(username='admin', password='pass@123')
-        
+
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.post(
-            reverse('update_seccion', kwargs={'seccionid': str(int(idtemp))}), 
+            reverse('update_seccion', kwargs={'seccionid': str(int(idtemp))}),
             {'nombre': 'The Catcher in the Rye', 'descripcion': 'Prueba'})
         self.assertEqual(response.status_code, 302)
     def test_secciones_delete_form_view(self):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
         self.client.login(username='admin', password='pass@123')
-        
+
         idtemp=Seccion.objects.get(nombre="electrodomesticos").id
         response = self.client.post(
             reverse('delete_seccion', kwargs={'seccionid': str(int(idtemp))}))
         self.assertEqual(response.status_code, 302)
-    
+
 
 
 class LogInTestCase(TestCase):
@@ -112,7 +112,7 @@ class LogInTestCase(TestCase):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=False)
         solicitud = self.client.post("/accounts/auth/", {'username': 'admin','password': 'pass@123'})
-        
+
         #self.client.login(username='admin', password='pass@123')
 
 
@@ -130,7 +130,7 @@ class LogInTestCase(TestCase):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
         self.client.login(username='admin', password='pass@123')
-        
+
         response = self.client.get("/accounts/loggedin/")
         ##self.assertEqual(response.status_code, 302) #302 porque es un redirect
         self.assertEqual(response.status_code, 200) #302 porque es un redirect
@@ -140,17 +140,17 @@ class LogInTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         #self.assertTemplateUsed(response, "LogIn/login.html")
 
-    def test_funcion_logout(self):    
+    def test_funcion_logout(self):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='user', password='pass@123', email='user@user.com',tipo=False)
         self.client.login(username='user', password='pass@123')
 
         response = self.client.get("/accounts/logout/")
-        self.assertEqual(response.status_code, 302)    
+        self.assertEqual(response.status_code, 302)
 
 
         self.client.logout()
-        
+
         #self.client.login(username='admin', password='pass@123')
 
     def test_funcion_crearUsuario(self):
@@ -232,8 +232,8 @@ class CarritoTestCase(TestCase):
         self.assertEqual(detalle2.carrito_fk, carrito1)
 
     def test_carrito_view(self):
-        self.client = Client()        
-        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)         
+        self.client = Client()
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
         self.client.login(username='admin', password='pass@123')
         ca = Carrito.objects.create(usuario_fk=self.user, monto_a_pagar=500)
         carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500)
@@ -247,15 +247,15 @@ class CarritoTestCase(TestCase):
         prod = Articulo.objects.get(nombre="Escudo")
         self.assertEqual(carr.usuario_fk, usua)
         self.assertEqual(prod.nombre, "Escudo")
-        response = self.client.get("/articulosCliente/list/")
+        response = self.client.get("/listarArticulos/lista")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "listar_articulos_cliente.html")
+        self.assertTemplateUsed(response, "products1.html")
 
     def test_add_carrito(self):
         idarti=Articulo.objects.get(nombre="Escudo").id
 
-        self.client = Client()        
-        self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
+        self.client = Client()
+        self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)
         self.client.login(username='admin2', password='pass2@123')
         prod =  Articulo.objects.get(id = idarti)
 
@@ -263,11 +263,22 @@ class CarritoTestCase(TestCase):
             carr = Carrito.objects.get(usuario_fk=self.user, monto_a_pagar=500) 
 
         except Carrito.DoesNotExist: 
-            response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
+            response = self.client.get("/listarArticulos/add_carrito/"+str(idarti)+"/")
             self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "listar_articulos_cliente.html")
+            self.assertTemplateUsed(response, "products1.html")
 
-        response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
+        response = self.client.get("/listarArticulos/add_carrito/"+str(idarti)+"/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "products1.html")
+
+    def test_add_carrito2(self):
+        idarti=Articulo.objects.get(nombre="Escudo").id
+
+        self.client = Client()
+        self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)
+        self.client.login(username='admin2', password='pass2@123')
+        prod =  Articulo.objects.get(id = idarti)
+        response = self.client.get("/listarArticulos/add_carrito/"+str(idarti)+"/")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "listar_articulos_cliente.html")
 
@@ -278,9 +289,9 @@ class CarritoTestCase(TestCase):
         self.user = Usuario.objects.create_user(username='admin2', password='pass2@123', email='admin2@admin.com',tipo=True)         
         self.client.login(username='admin2', password='pass2@123')
         prod =  Articulo.objects.get(id = idarti)
-        response = self.client.get("/articulosCliente/add_carrito/"+str(idarti)+"/")
+        response = self.client.get("/listarArticulos/add_carrito/"+str(idarti)+"/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "listar_articulos_cliente.html")
+        self.assertTemplateUsed(response, "products1.html")
          
 class ArticuloTestCase(TestCase):
     def setUp(self):
@@ -302,7 +313,7 @@ class ArticuloTestCase(TestCase):
         articulo1 = Articulo.objects.get(nombre="Spider-Man")
         self.assertEqual(articulo1.nombre,"Spider-Man")
         self.assertEqual(articulo1.descripcion, "juego para play station 4")
-        self.assertEqual(articulo1.precio, 700)    
+        self.assertEqual(articulo1.precio, 700)
         self.assertEqual(articulo1.imagen, "Articulo/switch.jpg")
     def test_articulo1_seccion1(self):
         articulo1 = Articulo.objects.get(nombre="play station")
@@ -312,7 +323,7 @@ class ArticuloTestCase(TestCase):
         self.assertEqual(articulo1.seccion_fk.nombre, "videojuegos")
     def test_form_articulo(self):
         #img = SimpleUploadedFile('C:/Users/LuisOmar/Pictures/logo.png', "file_content" ,content_type='image/png')
-        #img = Image.open("C:/Users/LuisOmar/Pictures/logo.png")   
+        #img = Image.open("C:/Users/LuisOmar/Pictures/logo.png")
         form = ArticuloForm(data={'nombre': 'play station', 'descripcion': 'consola de 500Gb','precio': '3000', 'seccion_fk': str(int(Seccion.objects.get(nombre="consolas").id))})
         print(form.errors)
         self.assertTrue(form.is_valid())
@@ -348,7 +359,7 @@ class ArticuloTestCase(TestCase):
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.get("/articulo/"+str(idtemp)+"/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "crear_articulo.html")  
+        self.assertTemplateUsed(response, "crear_articulo.html")
     def test_articulo_delete_view(self):
         self.client = Client() # May be you have missed this line
         self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
@@ -375,4 +386,4 @@ class ArticuloTestCase(TestCase):
         idtemp=Articulo.objects.get(nombre="play station").id
         response = self.client.post(
             reverse('delete_articulo', kwargs={'articuloid': str(int(idtemp))}))
-        self.assertEqual(response.status_code, 302) 
+        self.assertEqual(response.status_code, 302)
