@@ -1,0 +1,61 @@
+{% extends "secciones.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+ <!--establecemos el titulo en el bloque title-->
+ Listado de Posts
+{% endblock %}
+<!--finaliza el bloque title-->
+
+<!--heredamos el bloque content-->
+{% block content %}
+<div class="row">
+    <!-- mostramos los mensajes flash -->
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-8">
+                
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'list_carrito' %}" class="btn btn-warning">Carrito</a>
+            </div>
+            {% if articulos|length > 0 %}
+                <h2>Articulos</h2>
+                {% for articulo in articulos %}
+                     <div class="col-md-12" style="margin-bottom: 6px">
+                        <div class="col-md-8">
+                            <h6>Title: {{ articulo.nombre }}</h6>
+                            <h6>Descripcion: {{ articulo.descripcion }}</h6>
+                            <h6>Precio: {{ articulo.precio }} </h6>
+                            <img src="/Articulos/{{articulo.imagen}}" width="100" height="100">
+                         </div>
+                         <div class="col-md-4">
+                             <a href="{% url 'add_carrito' articulo.id %}" class="btn btn-success">Add Carrito</a>
+                             <!-- <h5>{{user}}</h5>
+                             <h5>{{user.id}}</h5> -->
+                         </div>
+                     </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay articulos</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!--finaliza el bloque content-->
+<!--heredamos el bloque footer-->
+{% block footer %}
+ <div class="navbar navbar-inverse navbar-fixed-bottom">
+ <div class="text-center" style="padding-top: 12px">
+ <small style="color: #fff">Footer Articulos List</small>
+     </div>
+ </div>
+{% endblock %}
+<!--finaliza el bloque footer-->

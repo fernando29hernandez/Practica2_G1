@@ -9,6 +9,7 @@ urlpatterns = [
     # url(r'^$', 'Practica2_G1.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^listarArticulos/', 'apps.verArticulos.views.show_listaArticulos', name='show_articulos'), #ruta para listar productos
-]
-urlpatterns += staticfiles_urlpatterns()
+    url(r'lista', 'apps.verArticulos.views.show_listaArticulos', name='show_articulos'), #ruta para listar productos
+    url(r'add_carrito/(?P<productoid>\d+)/', 'apps.verArticulos.views.add_carrito', name="add_carrito"), #add carrito
+    url(r'filtrar_categorias', 'apps.verArticulos.views.filtrar_categorias', name='filtrar_categorias'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
