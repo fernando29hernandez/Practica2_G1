@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.test import Client
 from datetime import datetime
 from django.contrib.auth import authenticate, login
-
+from apps.verArticulos.forms import ArticuloForm
 class SeccionTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="electrodomesticos",descripcion="area de articulos para el hogar")
@@ -250,7 +250,18 @@ class CarritoTestCase(TestCase):
         response = self.client.get("/listarArticulos/lista")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "products1.html")
-
+    def test_articulo_busqueda(self):
+        self.client = Client()
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.get("/listarArticulos/filtrar_categorias")
+        self.assertEqual(response.status_code, 200)
+    def test_articulo_busqueda_post(self):
+        self.client = Client()
+        self.user = Usuario.objects.create_user(username='admin', password='pass@123', email='admin@admin.com',tipo=True)
+        self.client.login(username='admin', password='pass@123')
+        response = self.client.post("/listarArticulos/filtrar_categorias",{'selector':1})
+        self.assertEqual(response.status_code, 200)
     def test_add_carrito(self):
         idarti=Articulo.objects.get(nombre="Escudo").id
 

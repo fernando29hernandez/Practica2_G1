@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for apps\verArticulos\views.py: 83%</title>
+    <title>Coverage for apps\verArticulos\views.py: 90%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.hotkeys.js"></script>
@@ -17,13 +17,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>apps\verArticulos\views.py</b> :
-            <span class="pc_cov">83%</span>
+            <span class="pc_cov">90%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             83 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">69 run</span>
-            <span class="mis shortkey_m button_toggle_mis">14 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">75 run</span>
+            <span class="mis shortkey_m button_toggle_mis">8 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
         </h2>
     </div>
@@ -87,12 +87,12 @@
 <p id="n31" class="stm run hide_run"><a href="#n31">31</a></p>
 <p id="n32" class="pln"><a href="#n32">32</a></p>
 <p id="n33" class="stm run hide_run"><a href="#n33">33</a></p>
-<p id="n34" class="stm mis"><a href="#n34">34</a></p>
-<p id="n35" class="stm mis"><a href="#n35">35</a></p>
-<p id="n36" class="stm mis"><a href="#n36">36</a></p>
-<p id="n37" class="stm mis"><a href="#n37">37</a></p>
-<p id="n38" class="stm mis"><a href="#n38">38</a></p>
-<p id="n39" class="stm mis"><a href="#n39">39</a></p>
+<p id="n34" class="stm run hide_run"><a href="#n34">34</a></p>
+<p id="n35" class="stm run hide_run"><a href="#n35">35</a></p>
+<p id="n36" class="stm run hide_run"><a href="#n36">36</a></p>
+<p id="n37" class="stm run hide_run"><a href="#n37">37</a></p>
+<p id="n38" class="stm run hide_run"><a href="#n38">38</a></p>
+<p id="n39" class="stm run hide_run"><a href="#n39">39</a></p>
 <p id="n40" class="pln"><a href="#n40">40</a></p>
 <p id="n41" class="stm run hide_run"><a href="#n41">41</a></p>
 <p id="n42" class="stm run hide_run"><a href="#n42">42</a></p>
@@ -189,12 +189,12 @@
 <p id="t31" class="stm run hide_run">    <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'products1.html'</span><span class="op">,</span><span class="op">{</span><span class="str">'productos'</span><span class="op">:</span><span class="nam">consulta</span><span class="op">,</span> <span class="str">'secciones'</span><span class="op">:</span><span class="nam">seccion</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t32" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t33" class="stm run hide_run"><span class="key">def</span> <span class="nam">filtrar_categorias</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t34" class="stm mis">    <span class="nam">seccion</span> <span class="op">=</span> <span class="nam">Seccion</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">all</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t35" class="stm mis">    <span class="key">if</span> <span class="nam">request</span><span class="op">.</span><span class="nam">method</span> <span class="op">==</span> <span class="str">'POST'</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t36" class="stm mis">        <span class="nam">a</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">POST</span><span class="op">[</span><span class="str">'selector'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t37" class="stm mis">        <span class="nam">consulta</span> <span class="op">=</span> <span class="nam">Articulo</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">seccion_fk</span><span class="op">=</span><span class="nam">a</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t38" class="stm mis">        <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'products1.html'</span><span class="op">,</span><span class="op">{</span><span class="str">'productos'</span><span class="op">:</span><span class="nam">consulta</span><span class="op">,</span> <span class="str">'secciones'</span><span class="op">:</span><span class="nam">seccion</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t39" class="stm mis">    <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'products1.html'</span><span class="op">,</span><span class="op">{</span><span class="str">'secciones'</span><span class="op">:</span><span class="nam">seccion</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t34" class="stm run hide_run">    <span class="nam">seccion</span> <span class="op">=</span> <span class="nam">Seccion</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">all</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t35" class="stm run hide_run">    <span class="key">if</span> <span class="nam">request</span><span class="op">.</span><span class="nam">method</span> <span class="op">==</span> <span class="str">'POST'</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t36" class="stm run hide_run">        <span class="nam">a</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">POST</span><span class="op">[</span><span class="str">'selector'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t37" class="stm run hide_run">        <span class="nam">consulta</span> <span class="op">=</span> <span class="nam">Articulo</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">seccion_fk</span><span class="op">=</span><span class="nam">a</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t38" class="stm run hide_run">        <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'products1.html'</span><span class="op">,</span><span class="op">{</span><span class="str">'productos'</span><span class="op">:</span><span class="nam">consulta</span><span class="op">,</span> <span class="str">'secciones'</span><span class="op">:</span><span class="nam">seccion</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t39" class="stm run hide_run">    <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'products1.html'</span><span class="op">,</span><span class="op">{</span><span class="str">'secciones'</span><span class="op">:</span><span class="nam">seccion</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t40" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t41" class="stm run hide_run"><span class="key">def</span> <span class="nam">add_carrito</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="nam">productoid</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t42" class="stm run hide_run">    <span class="nam">usuario</span> <span class="op">=</span> <span class="nam">Usuario</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="nam">id</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">user</span><span class="op">.</span><span class="nam">id</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -264,7 +264,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io/en/coverage-5.0a2">coverage.py v5.0a2</a>,
-            created at 2018-09-23 20:40
+            created at 2018-09-23 21:26
         </p>
     </div>
 </div>
