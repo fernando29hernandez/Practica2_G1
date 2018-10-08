@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.Carrito_Ventas',
     'apps.verArticulos',
+    'behave_django',
 )
 
 MIDDLEWARE_CLASSES = (
