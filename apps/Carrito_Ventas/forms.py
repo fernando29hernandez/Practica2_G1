@@ -63,3 +63,30 @@ class CrearUsuarioForm(ModelForm):
             'last_name':TextInput(attrs={'class':'form-control'}),
             'email':EmailInput(attrs={'class':'form-control'}),
          }
+
+class CrearUsuarioTipoForm(ModelForm):
+     class Meta:
+         model = Usuario
+         fields = [
+            'username',
+            'password',
+            'first_name',
+            'last_name',
+            'email',
+            'tipo',
+         ]
+         labels = {
+            'username':'Nombre de usuario',
+            'password':'Contraseña',
+            'first_name':'Nombre',
+            'last_name':'Apellido',
+            'email':'Correo electrónico',
+            'tipo':'Tipo de usuario(check=Admin or Usuario)',
+         }
+         widgets = {
+            'username':TextInput(attrs={'class':'form-control'}),
+            'password':PasswordInput(attrs={'class':'form-control'}),
+            'first_name':TextInput(attrs={'class':'form-control'}),
+            'last_name':TextInput(attrs={'class':'form-control'}),
+            'email':EmailInput(attrs={'class':'form-control'}),
+         }

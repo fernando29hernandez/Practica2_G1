@@ -4,9 +4,13 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render, render_to_response, HttpResponseRedirect, get_object_or_404
 
-from apps.Carrito_Ventas.models import Seccion, Usuario, Articulo
+from apps.Carrito_Ventas.models import Seccion,Articulo,Usuario,Carrito,Detalle_Carrito,Factura
 from apps.Carrito_Ventas.forms import SeccionForm, CrearUsuarioForm, ArticuloForm
+from apps.Carrito_Ventas.models import Articulo
+from apps.Carrito_Ventas.forms import ArticuloForm,CrearUsuarioTipoForm
 from django.contrib import messages
+from django.http import HttpResponse
+
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
@@ -40,10 +44,10 @@ def ver(request):
 def loggedin(request):
 	cursor = connection.cursor()
 	resultado = cursor.execute("select tipo from carrito_ventas_usuario where id = %s", [request.user.id])
-	
+
 	results = dictfetchall(cursor)
 	r = results[0]['tipo']
-	
+
 	#Verifico si es un administrador
 	if r == 0:
 		print "Administrador"
@@ -53,15 +57,15 @@ def loggedin(request):
 	#Si es un usuario normal (NO administrador)
 	print "Usuario normal"
 	return render(request,'LogIn/loggedin.html')
-	
+
 def invalid(request):
 	return render_to_response('LogIn/invalid.html')
 
 @login_required
 def logout(request):
 	auth.logout(request)
-	return redirect(reverse('apps.Carrito_Ventas.views.login'))	
-	
+	return redirect(reverse('apps.Carrito_Ventas.views.login'))
+
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -85,13 +89,13 @@ def CrearUsuario(request):
 		if form.is_valid():
 			#form.save()
 			v = form.save(commit = False)
-			
+
 			v.tipo = True #Indico que es un usuario normal
 			v.password = encriptarpassword(v.password) #Veo si tengo que encriptar la contraseña
 			v.save()
 		else:
 			print("ERROR")
-		return redirect(reverse('apps.Carrito_Ventas.views.login'))	
+		return redirect(reverse('apps.Carrito_Ventas.views.login'))
 	else:#Si es un GET se renderiza el formulario
 		form = CrearUsuarioForm()
 
@@ -107,16 +111,35 @@ def encriptarpassword(password):
 
     #Siempre voy a encriptar
     return encriptador.make_password(password,salt=None,hasher='default')
+@login_required
+def list_usuarios(request):
+    return render(request,"listar_usuarios.html", {"usuarios": Usuario.objects.all(), "messages": messages.get_messages(request)})
 
+@login_required
+def delete_usuario(request, usuarioid):
+    instance =Usuario.objects.get(id=usuarioid)
+    if request.method == 'POST':
+        instance.delete()
+        messages.add_message(request, messages.SUCCESS, "The usuario has been Deleted!")
+        return HttpResponseRedirect("/usuario/list/")
+    return render(request, 'eliminar_usuario.html',{'usuario':instance})
 
-
-
-
+@login_required
+def update_usuario(request, usuarioid):
+    instance = get_object_or_404(Usuario, id=usuarioid)
+    form = CrearUsuarioTipoForm(request.POST or None, instance=instance)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "The usuario has been updated!")
+            return HttpResponseRedirect("/usuario/list/")
+ 
+    return render(request, 'editar_usuario.html', {'form': form})
 
 
 @login_required
 def list_secciones(request):
-    return render_to_response("listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
+    return render(request,"listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
 
 @login_required
 def add_seccion(request):
@@ -126,7 +149,7 @@ def add_seccion(request):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been saved!")
             return HttpResponseRedirect("/seccion/list/")
- 
+
     return render(request, 'crear_seccion.html', {'form': form})
 
 @login_required
@@ -138,9 +161,9 @@ def update_seccion(request, seccionid):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been updated!")
             return HttpResponseRedirect("/seccion/list/")
- 
+
     return render(request, 'crear_seccion.html', {'form': form})
- 
+
 @login_required
 def delete_seccion(request, seccionid):
     instance =Seccion.objects.get(id=seccionid)
@@ -150,10 +173,11 @@ def delete_seccion(request, seccionid):
         return HttpResponseRedirect("/seccion/list/")
     return render(request, 'eliminar_seccion.html',{'seccion':instance})
  
+@login_required
 def list_articulos(request):
-    return render_to_response("listar_articulos.html", {"articulos": Articulo.objects.all(), "messages": messages.get_messages(request)})
+    return render(request,"listar_articulos.html", {"articulos": Articulo.objects.all(), "messages": messages.get_messages(request)})
 
-
+@login_required
 def add_articulo(request):
     form = ArticuloForm(request.POST, request.FILES)
     if request.method == 'POST':
@@ -161,9 +185,10 @@ def add_articulo(request):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been saved!")
             return HttpResponseRedirect("/articulo/list/")
- 
+
     return render(request, 'crear_articulo.html', {'form': form})
  
+@login_required
 def update_articulo(request, articuloid):
     instance = get_object_or_404(Articulo, id=articuloid)
     form = ArticuloForm(request.POST or None, instance=instance)
@@ -172,9 +197,10 @@ def update_articulo(request, articuloid):
             form.save()
             messages.add_message(request, messages.SUCCESS, "The post has been updated!")
             return HttpResponseRedirect("/articulo/list/")
- 
+
     return render(request, 'crear_articulo.html', {'form': form})
  
+@login_required
 def delete_articulo(request, articuloid):
     instance =Articulo.objects.get(id=articuloid)
     if request.method == 'POST':
@@ -182,3 +208,12 @@ def delete_articulo(request, articuloid):
         messages.add_message(request, messages.SUCCESS, "The post has been Deleted!")
         return HttpResponseRedirect("/articulo/list")
     return render(request, 'eliminar_articulo.html',{'articulo':instance})
+
+def list_carrito(request):
+    try:
+        usuario = Usuario.objects.get(id = request.user.id)
+        carr = Carrito.objects.get(usuario_fk = usuario)
+        deta = Detalle_Carrito.objects.filter(carrito_fk = carr)
+    except Carrito.DoesNotExist:
+        return HttpResponse("no hay nada en carrito")
+    return render(request,  "listar_carrito.html", {"carrito":carr, "detalle":deta, "messages": messages.get_messages(request) })

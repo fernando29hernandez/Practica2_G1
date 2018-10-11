@@ -1,10 +1,13 @@
+{%load staticfiles%}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <!-- bloque de contenido para el título-->
-    <title>Crud con Python y Django | {% block title %}Página principal{% endblock %}</title>
+    <title>Carrito de Ventas| {% block title %}Página principal{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
 </head>
 <body>
     <div id="header">
@@ -25,4 +28,7 @@
         {% block footer %}{% endblock %}
     </footer>
 </body>
+
 </html>
+<script src ="{% static 'js/app.js' %}"></script>
+  

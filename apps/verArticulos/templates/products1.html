@@ -1,0 +1,267 @@
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% extends "LogIn/loggedin.html" %}
+{%load staticfiles%}
+{%block header%}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Grocery Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src ="{% static 'js/app.js' %}"></script>
+
+<!-- //for-mobile-apps -->
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="{% static 'js/move-top.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/easing.js' %}"></script>
+<script type="text/javascript">
+</script>
+  {% if request.user.is_authenticated %}
+  {% if request.user.tipo == 0 %}       
+  <!-- Just an image -->
+  <div id="app">
+	  <nav class="navbar navbar-default navbar-static-top">
+		  <div class="container">
+			  <div class="navbar-header">
+				  <!-- Collapsed Hamburger -->
+				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+					  <span class="sr-only">Toggle Navigation</span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+				  </button>
+				  <!-- Branding Image -->
+				  <a class="navbar-brand" href="/accounts/loggedin">
+					  HOME
+				  </a>
+			  </div>
+			   <div class="collapse navbar-collapse" id="app-navbar-collapse">
+				  <!-- Left Side Of Navbar -->
+				  <ul class="nav navbar-nav">
+					  &nbsp;
+				  </ul>
+  
+	  <ul class="nav navbar-nav">
+		  <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Secciones <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+			  <li><a href="{% url 'list_secciones' %}">Administrar Secciones</a></li>
+			  <li role="separator" class="divider"></li>
+			  <li><a href="{% url 'add_seccion' %}">Agregar Seccion</a></li>
+			  <li role="separator" class="divider"></li>
+		   </ul>
+		  </li>
+	  </ul>
+  
+	  <ul class="nav navbar-nav">
+		  <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articulos<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+			  <li><a href="{% url 'list_articulos' %}">Administrar Articulos</a></li>
+			  <li role="separator" class="divider"></li>
+			  <li><a href="{% url 'add_articulo'  %}">Agregar Articulo</a></li>
+			  <li role="separator" class="divider"></li>
+		   </ul>
+		  </li>
+	  </ul>
+	  <ul class="nav navbar-nav">
+		  <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+			  <li><a href="{% url 'list_usuarios' %}">Usuarios</a></li>
+			  <li role="separator" class="divider"></li>
+		   </ul>
+		  </li>
+	  </ul>
+						  <!-- Right Side Of Navbar -->
+					  <ul class="nav navbar-nav navbar-right">
+					  <!-- Authentication Links -->
+						  <li class="dropdown">
+							  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+									  {{ user.get_username }} <span class="caret"></span>
+							  </a>
+							  <ul class="dropdown-menu" role="menu">
+								  <li>
+								  <a href="/accounts/logout/">Logout</a>
+								   </li>
+							  </ul>
+						  </li>
+					  </ul>
+				  </div>
+			  </div>
+		  </nav>
+	  </div>
+	  {% else %}
+	  <div id="app">
+		  <nav class="navbar navbar-default navbar-static-top">
+			  <div class="container">
+				  <div class="navbar-header">
+					  <!-- Collapsed Hamburger -->
+					  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+						  <span class="sr-only">Toggle Navigation</span>
+						  <span class="icon-bar"></span>
+						  <span class="icon-bar"></span>
+						  <span class="icon-bar"></span>
+					  </button>
+					  <!-- Branding Image -->
+					  <a class="navbar-brand" href="/accounts/loggedin">
+						  HOME
+					  </a>
+				  </div>
+				   <div class="collapse navbar-collapse" id="app-navbar-collapse">
+					  <!-- Left Side Of Navbar -->
+					  <ul class="nav navbar-nav">
+						  &nbsp;
+					  </ul>
+	  
+					  <ul class="nav navbar-nav">
+							  <li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Tienda <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+								  <li><a href="{% url 'show_articulos' %}">Productos</a></li>
+								  <li role="separator" class="divider"></li>
+							   </ul>
+							  </li>
+						  </ul>
+		  <ul class="nav navbar-nav">
+			  <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Pedidos <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+				  <li><a href="{% url 'list_carrito' %}">Carrito</a></li>
+				  <li role="separator" class="divider"></li>
+			   </ul>
+			  </li>
+		  </ul>
+		  
+							  <!-- Right Side Of Navbar -->
+						  <ul class="nav navbar-nav navbar-right">
+						  <!-- Authentication Links -->
+							  <li class="dropdown">
+								  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+										  {{ user.get_username }} <span class="caret"></span>
+								  </a>
+								  <ul class="dropdown-menu" role="menu">
+									  <li>
+									  <a href="/accounts/logout/">Logout</a>
+									   </li>
+								  </ul>
+							  </li>
+						  </ul>
+					  </div>
+				  </div>
+			  </nav>
+		  </div>
+	  
+  {%endif%}
+  
+  {% else %}
+  
+  <!-- Just an image -->
+  
+  <nav class="navbar navbar-inverse">
+	  <div class="navbar-header">
+		  <a class="navbar-brand" href="/"> HOME </a>
+	  </div>
+  </nav>
+  
+  {%endif%}
+
+{%endblock%}
+{%block content%}
+
+Categorias
+<form action="filtrar_categorias" method="post">
+	{% csrf_token %}
+<select name="selector">
+		{% for s in secciones %}
+ <option value="{{s.id}}">{{s.nombre}}</option>
+    {% endfor %}
+</select>
+  <input type="submit" value="Select">
+</form>
+<!-- script-for sticky-nav -->
+	<script>
+
+	</script>
+
+<!-- //header -->
+<a href="{% url 'list_carrito' %}" class="float">
+<i class="fa fa-plus my-float"></i>
+</a>
+<!-- top-brands -->
+	<div class="top-brands">
+		<div class="container">
+			<h3>Hot Offers</h3>
+
+			<div class="agile_top_brands_grids">
+				{% for producto in productos %}
+							<div class="col-md-3 top_brand_left">
+					<div class="hover14 column">
+						<div class="agile_top_brand_left_grid">
+							<div class="tag"><img src="{% static 'images/offer.png' %}" alt=" " class="img-responsive" /></div>
+							<div class="agile_top_brand_left_grid1">
+								<figure>
+									<div class="snipcart-item block" >
+										<div class="snipcart-thumb">
+											<a href="#"><img title=" " alt=" " src="/Articulos{{producto.imagen}}" width="170" height="200" /></a>
+											<p>{{ producto.nombre }}</p>
+											<h4>Q{{ producto.precio }}<span>Q{{ producto.precio }}</span></h4>
+										</div>
+										<div class="snipcart-details top_brand_home_details">
+		    												<a href="{% url 'add_carrito' producto.id %}">
+																			<input type="submit" name="submit" value="Add to cart" class="button" />
+																</a>
+										</div>
+									</div>
+								</figure>
+							</div>
+						</div>
+					</div>
+				</div>
+					{% endfor %}
+			</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+
+</script>
+<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear'
+				};
+			*/
+
+			$().UItoTop({ easingType: 'easeOutQuart' });
+
+			});
+	</script>
+<!-- //here ends scrolling icon -->
+
+<script>
+
+
+	</script>
+{% endblock %}

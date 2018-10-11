@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'Carrito_Ventas.Usuario'
 # Application definition
 
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.Carrito_Ventas',
+    'apps.verArticulos',
+    'behave_django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,10 +81,10 @@ WSGI_APPLICATION = 'Practica2_G1.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'practica2_ayd1',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD': '12345678',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
@@ -105,8 +108,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/' 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),) 
-# IMAGENES 
-MEDIA_URL = '/Articulos/' 
-MEDIA_ROOT = (os.path.join(BASE_DIR, 'static','Artitulos'))
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# IMAGENES
+MEDIA_URL = '/Articulos/'
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'static','Articulos'))

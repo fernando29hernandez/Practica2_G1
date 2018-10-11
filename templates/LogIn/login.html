@@ -1,4 +1,4 @@
-{% extends "secciones.html" %}
+{% extends "base.html" %}
 
 {%load staticfiles%}
 
@@ -12,8 +12,6 @@
     <nav class="navbar navbar-inverse">
         <div class="navbar-header">
             <a class="navbar-brand" href="/"> HOME </a>
-            <a class="navbar-brand" href="{% url 'list_secciones' %}">Listar Secciones</a>
-            <a class="navbar-brand" href="{% url 'add_seccion' %}">Nueva Seccion</a>
         </div>
     </nav>
 {% endblock %}
@@ -35,17 +33,17 @@
                                 <label for="email" class="col-md-4 control-label">Nombre de Usuario</label>
                                 <div class="col-md-6">
                                     <input type="text" name="username" value="" id="username">
-                                
+
 
                                 </div>
                                 <label for="password" class="col-md-4 control-label">Password</label>
                                 <div class="col-md-6">
                                     <input type="password" name="password" value="" id="password">
-                                    
+
                                 </div>
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button name ="submit" type="submit" class="btn btn-primary">
                                         Ingresar
                                     </button>
                                 </div>
@@ -55,7 +53,7 @@
 
                         <a class="navbar-brand" href="{% url 'CrearUsuario' %}">Crear Usuario</a>
 
-                        
+
                     </div>
                 </div>
             </div>

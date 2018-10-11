@@ -1,18 +1,26 @@
-{% extends "secciones.html" %}
+{% extends "LogIn/loggedin.html" %}
 {% block title %}
  Formulario de Secciones
 {% endblock %}
  
 {% block content %}
 <div class="row">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <form action="" method="post">{% csrf_token %}
-                {{ form.as_p }}
-            <input type="submit" class="btn btn-block btn-success" value="Submit">
-        </form>
+        <div class="panel panel-default">
+                <div class="panel-body">
+    
+                        <div class="table table-responsive"> 
+                                <table class="table table-striped">
+                           
+                <form action="" method="post">{% csrf_token %}
+                    {{ form.as_p }}
+                <input type="submit" class="btn btn-block btn-success" value="Submit">
+            </form>
+        </div>
         </div>
     </div>
+    </div>
+</div>
+</div>
 </div>
 {% endblock %}
 <!--finaliza el bloque content-->
