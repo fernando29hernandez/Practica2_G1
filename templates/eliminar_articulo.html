@@ -10,7 +10,7 @@
             <form action="" method="post">{% csrf_token %}
                 <h2>¿Desea Eliminar el articulo {{articulo.nombre}}?</h2>
                 <a class="navbar-brand" class="btn btn-block btn-warning" href="{% url 'list_articulos' %}">Regresar</a>    
-               <input type="submit" class="btn btn-block btn-success" value="Eliminar">
+               <input name="submit" type="submit" class="btn btn-block btn-success" value="Eliminar">
         </form>
         </div>
     </div>

@@ -42,8 +42,8 @@
                                     
                                     <td>
     
-                                            <a href="{% url 'update_articulo' articulo.id %}" class="btn btn-success">Update</a>
-                                            <a href="{% url 'delete_articulo' articulo.id %}" class="btn btn-danger">Remove</a>
+                                            <a id="{{forloop.counter}}" href="{% url 'update_articulo' articulo.id %}" class="btn btn-success">Update</a>
+                                            <a id="borrar{{forloop.counter}}" href="{% url 'delete_articulo' articulo.id %}" class="btn btn-danger">Remove</a>
                                                                                     
                                     </td>
                                     
