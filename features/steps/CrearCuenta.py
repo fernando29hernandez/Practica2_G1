@@ -1,6 +1,8 @@
 from behave import * 
 from browser import Browser
 from selenium import webdriver
+from apps.Carrito_Ventas.models import Seccion, Articulo, Usuario, Carrito, Detalle_Carrito, Factura
+from apps.Carrito_Ventas.forms import SeccionForm, ArticuloForm
 
 @given(u'el usuario va a la pagina de crearcuenta')
 def impl(context):
