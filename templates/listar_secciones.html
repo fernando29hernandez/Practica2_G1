@@ -27,15 +27,15 @@
                         </thead>
                     <tbody>
                         {%  if secciones %}
+                       
                         {%  for seccion in secciones %}
                             <tr>
                                 <td>{{seccion.nombre}}</td>
                                 <td>{{seccion.descripcion}}</td>
                                 <td>
-
-                                        <a href="{% url 'update_seccion' seccion.id %}" class="btn btn-success">Update</a>
-                                        <a href="{% url 'delete_seccion' seccion.id %}" class="btn btn-danger">Remove</a>
-                                                                  
+                                        <a id="{{forloop.counter}}" href="{% url 'update_seccion' seccion.id %}" class="btn btn-success">Update</a>
+                                        <a id="borrar{{forloop.counter}}"href="{% url 'delete_seccion' seccion.id %}" class="btn btn-danger">Remove</a>
+                                                       
                                 </td>
                                 
                             </tr>
