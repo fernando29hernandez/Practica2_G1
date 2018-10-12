@@ -33,7 +33,7 @@
                          </div>
                      </div>
                 {% endfor %}
-                <a href="{% url 'add_factura' carrito.id  %}" class="btn btn-default">Comprar</a>
+                <a href="{% url 'add_factura' carrito.id  %}" class="btn btn-default" name="comprar">Comprar</a>
             {% else %}
                 <p>No hay carrito</p>
             {% endif %}
