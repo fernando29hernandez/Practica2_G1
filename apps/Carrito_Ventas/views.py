@@ -139,7 +139,8 @@ def update_usuario(request, usuarioid):
 
 @login_required
 def list_secciones(request):
-    return render(request,"listar_secciones.html", {"secciones": Seccion.objects.all(), "messages": messages.get_messages(request)})
+    contador=0
+    return render(request,"listar_secciones.html", {"secciones": Seccion.objects.all(),"contador":contador, "messages": messages.get_messages(request)})
 
 @login_required
 def add_seccion(request):

@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+[1010/174914.211:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1010/174914.419:ERROR:exception_snapshot_win.cc(88)] thread ID 19308 not found in process
+=======
+[1011/214548.002:ERROR:process_reader_win.cc(123)] NtOpenThread: {Acceso denegado} Un proceso ha solicitado acceso a un objeto, pero no se le han concedido esos derechos de acceso. (0xc0000022)
+[1011/214548.062:ERROR:exception_snapshot_win.cc(88)] thread ID 9420 not found in process
+>>>>>>> 6369d7e75fffa1638ffcd468f8964b9b0be51934

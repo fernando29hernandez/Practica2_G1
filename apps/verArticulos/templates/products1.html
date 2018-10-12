@@ -222,9 +222,9 @@ Categorias
 											<h4>Q{{ producto.precio }}<span>Q{{ producto.precio }}</span></h4>
 										</div>
 										<div class="snipcart-details top_brand_home_details">
-		    												<a href="{% url 'add_carrito' producto.id %}">
-																			<input type="submit" name="submit" value="Add to cart" class="button" />
-																</a>
+											<a href="{% url 'add_carrito' producto.id %}">
+												<input type="submit" name="{{forloop.counter}}submit" value="Add to cart" class="button" />
+											</a>
 										</div>
 									</div>
 								</figure>
