@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'practica2_ayd1',
         'USER': 'root',
-        'PASSWORD': 'BasesdeDatos1',
+        'PASSWORD': '12345678',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }

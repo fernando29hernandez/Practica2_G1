@@ -8,6 +8,14 @@ Feature: Crear Articulo
         When el usuario llene el campo seccion_fk
         Then le de aceptar al formulario y se cree el Articulo
 
+    Scenario: Ingresar un nuevo Articulo2
+        Given el usuario va a la pagina de ingresar un Articulo2
+        When el usuario llene el campo nombre2
+        When el usuario llene el campo descripcion2
+        When el usuario llene el campo precio2
+        When el usuario llene el campo seccion_fk2
+        Then le de aceptar al formulario y se cree el Articulo2
+
     Scenario: Modificar Articulo
         Given el usuario va a la pagina de modificar un Articulo
         When el usuario llene el campo nombre para actualizar
