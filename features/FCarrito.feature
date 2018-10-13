@@ -1,10 +1,10 @@
 Feature: Crear Cuenta
 
     Scenario: Agregar producto al carrito
-        Given el usuario debe estar logueado
-        When vea la pagina principal
-        When se diriga a la pagina de productos
-        Then le de agregar al articulo
+        Given el usuario debe estar logueado para agregar
+        When vea la pagina principal para agregar
+        When se diriga a la pagina de productos para agregar
+        Then le de agregar al articulo para agregar al carrito
         
     Scenario: Comprar articulos
     	Given el usuario debe estar logueado para ver carrito
