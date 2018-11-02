@@ -16,4 +16,5 @@ script: # => 7
     - python manage.py makemigrations
     - python manage.py migrate
     - mysql -e 'use practica2_ayd1; show tables;' -u root -p12345678
+    - sudo echo "lower_case_table_names = 1" >> /etc/mysql/my.cnf
     - python manage.py test
