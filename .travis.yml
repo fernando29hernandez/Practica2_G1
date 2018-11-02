@@ -1,6 +1,5 @@
 language: python # => 1
 python: # => 2
-    - "2.6"
     - "2.7"
 services: # => 3
     - mysql
