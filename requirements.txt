@@ -1,3 +1,5 @@
 Django==1.8
 pillow
 BeautifulTable
+Behave
+behave_django
