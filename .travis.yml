@@ -9,8 +9,9 @@ env: # => 4
 install: # => 5
     - pip install -r requirements.txt
 before_script: # => 6
-    - mysql -e 'create database practica2_ayd1;' -u root
     - echo "USE mysql;\nUPDATE user SET password=PASSWORD('12345678') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+    - mysql -e 'create database practica2_ayd1;' -u root -p12345678
+    - mysql -e 'create database test;' -u root -p12345678
 script: # => 7
     - python manage.py makemigrations
     - python manage.py migrate
