@@ -1,4 +1,5 @@
 language: python # => 1
+sudo: true
 python: # => 2
     - "2.7"
 services: # => 3
