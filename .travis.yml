@@ -17,5 +17,4 @@ script: # => 7
     - python manage.py migrate
     - mysql -e 'use practica2_ayd1; show tables;' -u root -p12345678
     - mysql -e 'use test; show tables;' -u root -p12345678
-    - mysql -e 'RENAME TABLE test_practica2_ayd1.Carrito_Ventas_usuario TO test_practica2_ayd1.carrito_ventas_usuario' -u root -p12345678
     - python manage.py test
