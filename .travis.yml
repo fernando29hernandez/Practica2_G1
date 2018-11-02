@@ -12,6 +12,7 @@ before_script: # => 6
     - echo "USE mysql;\nUPDATE user SET password=PASSWORD('12345678') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
     - mysql -e 'create database practica2_ayd1;' -u root -p12345678
     - mysql -e 'create database test;' -u root -p12345678
+    - mysql -e 'use practica2_ayd1; show tables;' -u root -p12345678
 script: # => 7
     - python manage.py makemigrations
     - python manage.py migrate
