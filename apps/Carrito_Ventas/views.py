@@ -100,7 +100,7 @@ def CrearUsuario(request):
 		form = CrearUsuarioForm()
 
 	#return redirect(reverse('apps.Carrito_Ventas.views.login'))
-	return render(request,'LogIn/crearUsuario.html',{'form':form})
+	return render(request,'LogIn/crearusuario.html',{'form':form})
 
 def encriptarpassword(password):
 	#Verifica si la contrasea ya está encriptada
