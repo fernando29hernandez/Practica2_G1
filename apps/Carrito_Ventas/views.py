@@ -43,7 +43,7 @@ def ver(request):
 @login_required
 def loggedin(request):
 	cursor = connection.cursor()
-	resultado = cursor.execute("select tipo from carrito_ventas_usuario where id = %s", [request.user.id])
+	resultado = cursor.execute("select tipo from Carrito_Ventas_usuario where id = %s", [request.user.id])
 
 	results = dictfetchall(cursor)
 	r = results[0]['tipo']
