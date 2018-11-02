@@ -3,3 +3,4 @@ pillow
 BeautifulTable
 Behave
 behave_django
+ MySQL-python
