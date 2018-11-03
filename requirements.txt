@@ -3,4 +3,5 @@ pillow
 BeautifulTable
 Behave
 behave_django
- MySQL-python
+MySQL-python
+Selenium
