@@ -12,9 +12,22 @@ before_script: # => 6
     - echo "USE mysql;\nUPDATE user SET password=PASSWORD('12345678') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
     - mysql -e 'create database practica2_ayd1;' -u root -p12345678
     - mysql -e 'create database test;' -u root -p12345678
+before_install:
+    - export CHROME_BIN=/usr/bin/google-chrome
+    # start xvbfb for e2e tests with screen resolution 1280x1024x16
+    - "export DISPLAY=:99.0"
+    - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+    # give xvfb some time to start
+    - sleep 3
+    - sudo apt-get update
+    - sudo apt-get install -y libappindicator1 fonts-liberation
+    - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - sudo dpkg -i google-chrome*.deb
+    - google-chrome --version
 script: # => 7
     - python manage.py makemigrations
     - python manage.py migrate
     - mysql -e 'use practica2_ayd1; show tables;' -u root -p12345678
     - mysql -e 'use test; show tables;' -u root -p12345678
     - python manage.py test
+    - python manage.py behave
