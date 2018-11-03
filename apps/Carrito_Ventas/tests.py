@@ -3,7 +3,6 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 # Create your tests here.
 from django.test import TestCase
-
 from apps.Carrito_Ventas.models import Seccion, Articulo, Usuario, Carrito, Detalle_Carrito, Factura
 from apps.Carrito_Ventas.forms import SeccionForm, ArticuloForm
 from PIL import Image
@@ -16,7 +15,7 @@ from apps.verArticulos.forms import ArticuloForm
 class SeccionTestCase(TestCase):
     def setUp(self):
         a1 = Seccion.objects.create(nombre="electrodomesticos",descripcion="area de articulos para el hogar")
-        a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es un juego")
+        a2 = Seccion.objects.create(nombre="videojuegos",descripcion="esto es una prueba")
 
     def test_seccion1(self):
         seccion1 = Seccion.objects.get(nombre="electrodomesticos")
